@@ -1,4 +1,6 @@
-﻿namespace AppMvcBasica.Models
+﻿using System;
+
+namespace AppMvcBasica.Models
 {
 	public abstract class Entity
 	{
