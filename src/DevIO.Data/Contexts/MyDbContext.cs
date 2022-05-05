@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using AppMvcBasica.Models;
+using DevIO.Business.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DevIO.Data.Contexts
