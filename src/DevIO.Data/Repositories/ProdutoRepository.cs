@@ -4,12 +4,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using DevIO.Business.Interfaces;
 using DevIO.Business.Models;
+using DevIO.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 
 namespace DevIO.Data.Repositories
 {
     public class ProdutoRepository : Repository<Produto>, IProdutoRpository
     {
+        public ProdutoRepository(MyDbContext db) : base(db)
+        {
+        }
+
         public async Task<Produto> GetProdutoForncedor(Guid id)
         {
             return await Db.Produtos

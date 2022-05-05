@@ -30,6 +30,8 @@ builder.Services.AddScoped<IProdutoRpository, ProdutoRepository>();
 builder.Services.AddScoped<IFornecedorRepository, FornecedorRepository>();
 builder.Services.AddScoped<IEnderecoRepository, EnderecoRepository>();
 
+builder.Services.AddAutoMapper(typeof(Program));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
