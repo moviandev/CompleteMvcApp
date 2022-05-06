@@ -26,7 +26,7 @@ builder.Services.AddDbContext<MyDbContext>(options =>
 
 builder.Services.AddScoped<MyDbContext>();
 
-builder.Services.AddScoped<IProdutoRpository, ProdutoRepository>();
+builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<IFornecedorRepository, FornecedorRepository>();
 builder.Services.AddScoped<IEnderecoRepository, EnderecoRepository>();
 

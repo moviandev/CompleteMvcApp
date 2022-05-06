@@ -8,7 +8,7 @@ namespace DevIO.Business.Models
 
         public string Documento { get; set; }
 
-        public TipoForncedor TipoForncedor { get; set; }
+        public TipoFornecedor TipoForncedor { get; set; }
 
         public Endereco Endereco { get; set; }
 

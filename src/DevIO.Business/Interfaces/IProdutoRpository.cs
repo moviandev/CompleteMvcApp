@@ -5,7 +5,7 @@ using DevIO.Business.Models;
 
 namespace DevIO.Business.Interfaces
 {
-	public interface IProdutoRpository : IRepository<Produto>
+	public interface IProdutoRepository : IRepository<Produto>
 	{
 		Task<IEnumerable<Produto>> GetProdutosByFornecedorAsync(Guid fornecedorId);
 

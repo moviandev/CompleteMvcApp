@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DevIO.Data.Repositories
 {
-    public class ProdutoRepository : Repository<Produto>, IProdutoRpository
+    public class ProdutoRepository : Repository<Produto>, IProdutoRepository
     {
         public ProdutoRepository(MyDbContext db) : base(db)
         {
