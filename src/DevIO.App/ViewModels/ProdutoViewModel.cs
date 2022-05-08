@@ -24,7 +24,8 @@ namespace DevIO.App.ViewModels
         [StringLength(1000, ErrorMessage = "O campo {0} precisa ter entre {2} e {1}", MinimumLength = 2)]
         public string Descricao { get; set; }
 
-        //public IFormFile ImagemUpload { get; set; }
+        [DisplayName("Nome do Produto")]
+        public IFormFile ImagemUpload { get; set; }
 
         public string Imagem { get; set; }
 
@@ -40,7 +41,7 @@ namespace DevIO.App.ViewModels
         /* EF Relations */
         public FornecedorViewModel Fornecedor { get; set; }
 
-        //public IEnumerable<FornecedorViewModel> Forncedores { get; set; }
+        public IEnumerable<FornecedorViewModel> Fornecedores { get; set; }
     }
 }
 
