@@ -129,7 +129,7 @@ namespace DevIO.App.Controllers
         private async Task<ProdutoViewModel> GetProdutoAsync(Guid id)
         {
             var produto = _mapper.Map<ProdutoViewModel>(await _produtoRepository.GetProdutoForncedor(id));
-            //produto.Forncedores = _mapper.Map<IEnumerable<FornecedorViewModel>>(await _fornecedorRepository.GetAllAsync());
+            produto.Fornecedores = _mapper.Map<IEnumerable<FornecedorViewModel>>(await _fornecedorRepository.GetAllAsync());
 
             return produto;
         }
@@ -137,7 +137,7 @@ namespace DevIO.App.Controllers
 
         private async Task<ProdutoViewModel> PopulateFornecedores(ProdutoViewModel produto)
         {
-            //produto.Forncedores = _mapper.Map<IEnumerable<FornecedorViewModel>>(await _fornecedorRepository.GetAllAsync());
+            produto.Fornecedores = _mapper.Map<IEnumerable<FornecedorViewModel>>(await _fornecedorRepository.GetAllAsync());
 
             return produto;
         }
