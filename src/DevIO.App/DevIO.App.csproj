@@ -44,5 +44,9 @@
   <ItemGroup>
     <Folder Include="Db\" />
     <Folder Include="AutoMapper\" />
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\images\" />
   </ItemGroup>
 </Project>

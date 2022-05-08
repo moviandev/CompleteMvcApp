@@ -6,6 +6,8 @@ using DevIO.App.ViewModels;
 using DevIO.Business.Interfaces;
 using AutoMapper;
 using DevIO.Business.Models;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace DevIO.App.Controllers
 {
@@ -62,9 +64,15 @@ namespace DevIO.App.Controllers
 
             if (!ModelState.IsValid) return View(produtoViewModel);
 
+            var imgPrefix = Guid.NewGuid() + "_";
+
+            if (!await UploadImage(produtoViewModel.ImagemUpload, imgPrefix)) return View(produtoViewModel);
+
+            produtoViewModel.Imagem = imgPrefix + produtoViewModel.ImagemUpload.FileName;
+
             await _produtoRepository.AddAsync(_mapper.Map<Produto>(produtoViewModel));
             
-            return View(produtoViewModel);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Produtos/Edit/5
@@ -140,6 +148,25 @@ namespace DevIO.App.Controllers
             produto.Fornecedores = _mapper.Map<IEnumerable<FornecedorViewModel>>(await _fornecedorRepository.GetAllAsync());
 
             return produto;
+        }
+
+
+        private async Task<bool> UploadImage(IFormFile file, string imgPrefix)
+        {
+            if (file.Length <= 0) return false;
+
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", imgPrefix + file.FileName);
+
+            if (System.IO.File.Exists(path))
+            {
+                ModelState.AddModelError(string.Empty, "Já existe um arquivo com esse nome");
+                return false;
+            }
+
+            using var stream = new FileStream(path, FileMode.Create);
+            await file.CopyToAsync(stream);
+
+            return true;
         }
     }
 }
