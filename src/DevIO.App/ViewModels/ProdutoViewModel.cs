@@ -40,7 +40,7 @@ namespace DevIO.App.ViewModels
         /* EF Relations */
         public FornecedorViewModel Fornecedor { get; set; }
 
-        public IEnumerable<FornecedorViewModel> Forncedores { get; set; }
+        //public IEnumerable<FornecedorViewModel> Forncedores { get; set; }
     }
 }
 
