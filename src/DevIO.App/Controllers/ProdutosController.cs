@@ -97,11 +97,27 @@ namespace DevIO.App.Controllers
         {
             if (id != produtoViewModel.Id) return NotFound();
 
+            var updateProduto = await GetProdutoAsync(id);
+            produtoViewModel.Fornecedor = updateProduto.Fornecedor;
+            produtoViewModel.Imagem = updateProduto.Imagem;
+
             if (!ModelState.IsValid) return View(produtoViewModel);
 
-            await _produtoRepository.UpdateAsync(_mapper.Map<Produto>(produtoViewModel));
+            if(produtoViewModel.Imagem != null)
+            {
+                var imgPrefix = Guid.NewGuid() + "_";
+                if (!await UploadImage(produtoViewModel.ImagemUpload, imgPrefix)) return View(produtoViewModel);
+                updateProduto.Imagem = imgPrefix + produtoViewModel.ImagemUpload.FileName;
+            }
+
+            updateProduto.Nome = produtoViewModel.Nome;
+            updateProduto.Descricao = produtoViewModel.Descricao;
+            updateProduto.Valor = produtoViewModel.Valor;
+            updateProduto.Ativo = produtoViewModel.Ativo;
+
+            await _produtoRepository.UpdateAsync(_mapper.Map<Produto>(updateProduto));
             
-            return View(produtoViewModel);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Produtos/Delete/5

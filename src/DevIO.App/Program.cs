@@ -8,6 +8,9 @@ using Microsoft.Extensions.Hosting;
 using DevIO.Data.Contexts;
 using DevIO.Business.Interfaces;
 using DevIO.Data.Repositories;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using System.Collections.Generic;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +33,8 @@ builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<IFornecedorRepository, FornecedorRepository>();
 builder.Services.AddScoped<IEnderecoRepository, EnderecoRepository>();
 
+
+
 builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
@@ -48,6 +53,15 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+var defaultCulture = new CultureInfo("pt-BR");
+var localizationOptions = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(defaultCulture),
+    SupportedCultures = new List<CultureInfo> { defaultCulture },
+    SupportedUICultures = new List<CultureInfo> { defaultCulture }
+};
+app.UseRequestLocalization(localizationOptions);
 
 app.UseRouting();
 
