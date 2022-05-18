@@ -26,6 +26,7 @@
     <None Remove="Swashbuckle.AspNetCore" />
     <None Remove="font-awesome" />
     <None Remove="Extensions\" />
+    <None Remove="Configurations\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.5" />
@@ -47,6 +48,7 @@
     <Folder Include="AutoMapper\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="Extensions\" />
+    <Folder Include="Configurations\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\images\" />
