@@ -12,12 +12,14 @@ namespace DevIO.App.Controllers
     public class FornecedoresController : BaseController
     {
         private readonly IFornecedorRepository _context;
+        private readonly IEnderecoRepository _enderecoRepository;
         private readonly IMapper _mapper;
 
-        public FornecedoresController(IFornecedorRepository context, IMapper mapper)
+        public FornecedoresController(IFornecedorRepository context, IMapper mapper, IEnderecoRepository enderecoRepository)
         {
             _context = context;
             _mapper = mapper;
+            _enderecoRepository = enderecoRepository;
         }
 
         // GET: Fornecedores
@@ -117,6 +119,41 @@ namespace DevIO.App.Controllers
             await _context.DeleteAsync(id);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> GetEndereco(Guid id)
+        {
+            var fornecedor = await GetFornecedorEndereco(id);
+
+            if (fornecedor == null) NotFound();
+
+            return PartialView("_EnderecoDetails", fornecedor);
+        }
+
+        public async Task<IActionResult> UpdateAddress(Guid id)
+        {
+            var fornecedor = await GetFornecedorEndereco(id);
+
+            if (fornecedor == null) return NotFound();
+
+            return PartialView("_UpdateAddress", new FornecedorViewModel { Endereco = fornecedor.Endereco });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateAddress(Guid id, FornecedorViewModel fornecedor)
+        {
+            ModelState.Remove("Nome");
+            ModelState.Remove("Documento");
+
+            if (!ModelState.IsValid) return PartialView("_UpdateAddress", fornecedor);
+
+            await _enderecoRepository.UpdateAsync(_mapper.Map<Endereco>(fornecedor.Endereco));
+
+            var url = Url.Action("GetEndereco", "Fornecedores", new { id = fornecedor.Endereco.FornecedorId });
+
+            return Json(new { SUCCESS = true, url });
+
         }
 
         private async Task<FornecedorViewModel> GetFornecedorEndereco(Guid id)
