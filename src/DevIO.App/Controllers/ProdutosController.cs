@@ -26,13 +26,13 @@ namespace DevIO.App.Controllers
             _fornecedorRepository = fornecedorRepository;
         }
 
-        // GET: Produtos
+        [Route("produto-list")]
         public async Task<IActionResult> Index()
         {
             return View(_mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepository.GetProdutosFornecedoresAsync()));
         }
 
-        // GET: Produtos/Details/5
+        [Route("produto-info/{id:guid}")]
         public async Task<IActionResult> Details(Guid id)
         {
             var produtoViewModel = await GetProdutoAsync(id);
@@ -44,7 +44,7 @@ namespace DevIO.App.Controllers
             return View(produtoViewModel);
         }
 
-        // GET: Produtos/Create
+        [Route("new-produto")]
         public async Task<IActionResult> Create()
         {
             var produtosViewModel = await PopulateFornecedores(new ProdutoViewModel());
@@ -52,9 +52,7 @@ namespace DevIO.App.Controllers
             return View(produtosViewModel);
         }
 
-        // POST: Produtos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Route("new-produto")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProdutoViewModel produtoViewModel)
@@ -75,7 +73,7 @@ namespace DevIO.App.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Produtos/Edit/5
+        [Route("edit-produto/{id:guid}")]
         public async Task<IActionResult> Edit(Guid id)
         {
             var produtoViewModel = await GetProdutoAsync(id);
@@ -88,9 +86,7 @@ namespace DevIO.App.Controllers
             return View(produtoViewModel);
         }
 
-        // POST: Produtos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Route("edit-produto/{id:guid}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, ProdutoViewModel produtoViewModel)
@@ -120,7 +116,7 @@ namespace DevIO.App.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Produtos/Delete/5
+        [Route("delete-produto/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var produtoViewModel = await GetProdutoAsync(id);
@@ -133,7 +129,7 @@ namespace DevIO.App.Controllers
             return View(produtoViewModel);
         }
 
-        // POST: Produtos/Delete/5
+        [Route("delete-produto/{id:guid}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
