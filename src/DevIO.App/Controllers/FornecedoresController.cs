@@ -6,9 +6,12 @@ using DevIO.App.ViewModels;
 using DevIO.Business.Interfaces;
 using AutoMapper;
 using DevIO.Business.Models;
+using Microsoft.AspNetCore.Authorization;
+using DevIO.App.Extensions;
 
 namespace DevIO.App.Controllers
 {
+    [Authorize]
     public class FornecedoresController : BaseController
     {
         private readonly IFornecedorRepository _context;
@@ -25,12 +28,14 @@ namespace DevIO.App.Controllers
             _service = service;
         }
 
+        [AllowAnonymous]
         [Route("lista-de-fornecedores")]
         public async Task<IActionResult> Index()
         {
             return View(_mapper.Map<IEnumerable<FornecedorViewModel>>(await _context.GetAllAsync()));
         }
 
+        [AllowAnonymous]
         [Route("dados-do-fornecedor/{id:guid}")]
         public async Task<IActionResult> Details(Guid id)
         {
@@ -43,12 +48,14 @@ namespace DevIO.App.Controllers
             return View(fornecedorViewModel);
         }
 
+        [ClaimsAuthorize("Fornecedor", "Adicionar")]
         [Route("new-fornecedor")]
         public IActionResult Create()
         {
             return View();
         }
 
+        [ClaimsAuthorize("Fornecedor", "Adicionar")]
         [Route("new-fornecedor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -66,6 +73,7 @@ namespace DevIO.App.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [ClaimsAuthorize("Fornecedor", "Editar")]
         [Route("edit-fornecedor/{id:guid}")]
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -78,6 +86,8 @@ namespace DevIO.App.Controllers
             return View(fornecedorViewModel);
         }
 
+
+        [ClaimsAuthorize("Fornecedor", "Editar")]
         [Route("edit-fornecedor/{id:guid}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -100,6 +110,7 @@ namespace DevIO.App.Controllers
 
         }
 
+        [ClaimsAuthorize("Fornecedor", "Excluir")]
         [Route("delete-fornecedor/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -112,6 +123,7 @@ namespace DevIO.App.Controllers
             return View(fornecedorViewModel);
         }
 
+        [ClaimsAuthorize("Fornecedor", "Excluir")]
         [Route("delete-fornecedor/{id:guid}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -129,6 +141,7 @@ namespace DevIO.App.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [AllowAnonymous]
         [Route("get-endereco")]
         public async Task<IActionResult> GetEndereco(Guid id)
         {
@@ -139,6 +152,7 @@ namespace DevIO.App.Controllers
             return PartialView("_EnderecoDetails", fornecedor);
         }
 
+        [ClaimsAuthorize("Fornecedor", "Editar")]
         [Route("update-endereco")]
         public async Task<IActionResult> UpdateAddress(Guid id)
         {
@@ -149,6 +163,7 @@ namespace DevIO.App.Controllers
             return PartialView("_UpdateAddress", new FornecedorViewModel { Endereco = fornecedor.Endereco });
         }
 
+        [ClaimsAuthorize("Fornecedor", "Editar")]
         [Route("update-endereco")]
         [HttpPost]
         [ValidateAntiForgeryToken]
