@@ -1,4 +1,6 @@
-﻿using DevIO.Business.Models;
+﻿using DevIO.Business.Interfaces;
+using DevIO.Business.Models;
+using DevIO.Business.Notifications;
 using FluentValidation;
 using FluentValidation.Results;
 
@@ -6,9 +8,16 @@ namespace DevIO.Business.Services
 {
     public abstract class BaseService
 	{
+        private readonly INotifier _notifier;
+
+        protected BaseService(INotifier notifier)
+        {
+            _notifier = notifier;
+        }
+
         protected void Notificar(string message)
         {
-            // propagar erro até camada de apresentacao
+            _notifier.Handle(new Notification(message));
         }
 
         protected void Notificar(ValidationResult validationResult)

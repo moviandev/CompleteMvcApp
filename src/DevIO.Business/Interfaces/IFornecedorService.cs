@@ -4,7 +4,7 @@ using DevIO.Business.Models;
 
 namespace DevIO.Business.Interfaces
 {
-	public interface IFornecedorService
+	public interface IFornecedorService : IDisposable
 	{
 		Task AddAsync(Fornecedor fornecedor);
 
@@ -12,7 +12,7 @@ namespace DevIO.Business.Interfaces
 
 		Task DeleteAsync(Guid id);
 
-		Task UpdateEnderecosync(Fornecedor fornecedor);
+		Task UpdateEnderecosync(Endereco endereco);
 	}
 }
 

@@ -15,15 +15,19 @@ namespace DevIO.App.Controllers
     {
         private readonly IProdutoRepository _produtoRepository;
         private readonly IFornecedorRepository _fornecedorRepository;
+        private readonly IProdutoService _service;
         private readonly IMapper _mapper;
 
         public ProdutosController(IProdutoRepository context,
                                   IMapper mapper,
-                                  IFornecedorRepository fornecedorRepository)
+                                  IFornecedorRepository fornecedorRepository,
+                                  IProdutoService produtoService,
+                                  INotifier notifier) : base(notifier)
         {
             _produtoRepository = context;
             _mapper = mapper;
             _fornecedorRepository = fornecedorRepository;
+            _service = produtoService;
         }
 
         [Route("produto-list")]
@@ -68,7 +72,10 @@ namespace DevIO.App.Controllers
 
             produtoViewModel.Imagem = imgPrefix + produtoViewModel.ImagemUpload.FileName;
 
-            await _produtoRepository.AddAsync(_mapper.Map<Produto>(produtoViewModel));
+            await _service.AddAsync(_mapper.Map<Produto>(produtoViewModel));
+
+            if (!ValidOperation())
+                return View(produtoViewModel);
             
             return RedirectToAction(nameof(Index));
         }
@@ -111,7 +118,10 @@ namespace DevIO.App.Controllers
             updateProduto.Valor = produtoViewModel.Valor;
             updateProduto.Ativo = produtoViewModel.Ativo;
 
-            await _produtoRepository.UpdateAsync(_mapper.Map<Produto>(updateProduto));
+            await _service.UpdateAsync(_mapper.Map<Produto>(updateProduto));
+
+            if (!ValidOperation())
+                return View(produtoViewModel);
             
             return RedirectToAction(nameof(Index));
         }
@@ -141,7 +151,12 @@ namespace DevIO.App.Controllers
                 return NotFound();
             }
 
-            await _produtoRepository.DeleteAsync(id);
+            await _service.DeleteAsync(id);
+
+            if (!ValidOperation())
+                return View(produtoViewModel);
+
+            TempData["Sucesso"] = "Produto excluido com sucesso.";
 
             return RedirectToAction(nameof(Index));
         }
