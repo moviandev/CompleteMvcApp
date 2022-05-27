@@ -5,8 +5,6 @@
     <UserSecretsId>aspnet-DevIO.App-F4E09F27-9305-43B9-A75B-E1AF7CEBEE7B</UserSecretsId>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(RunConfiguration)' == 'DevIO.App - Stage' " />
-  <PropertyGroup Condition=" '$(RunConfiguration)' == 'DevIO.App - Prod' " />
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'DevIO.App - Dev' " />
   <ItemGroup>
     <ProjectReference Include="..\DevIO.Data\DevIO.Data.csproj">
